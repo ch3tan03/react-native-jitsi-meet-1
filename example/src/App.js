@@ -14,25 +14,18 @@ import {
   Events,
   eventEmitter,
   FeatureFlag,
-  FeatureFlags,
 } from '@smartness-community/react-native-jitsi-meet';
 
 const backgroundColor = 'cadetblue';
 const buttonColor = '#f194ff';
 
-interface FeatureTagCheckBoxProps {
-  disabled?: boolean;
-  value: boolean;
-  onValueChange: (value: boolean) => void;
-  text: string;
-}
 
 const FeatureTagCheckBox = ({
   disabled = false,
   value,
   onValueChange,
   text,
-}: FeatureTagCheckBoxProps) => {
+}) => {
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', margin: 4 }}>
       <CheckBox
@@ -44,9 +37,6 @@ const FeatureTagCheckBox = ({
     </View>
   );
 };
-interface Props {
-  flags: FeatureFlags;
-}
 const initialFlags = {
   [FeatureFlag.ADD_PEOPLE_ENABLED]: true,
   [FeatureFlag.CHAT_ENABLED]: true,
@@ -63,15 +53,15 @@ const initialFlags = {
   [FeatureFlag.TILE_VIEW_ENABLED]: false,
   [FeatureFlag.TILE_DEFAULT_VIEW_ENABLED]: false,
 };
-export default function App({ flags = initialFlags }: Props) {
+export default function App({ flags = initialFlags }) {
   // Conference values
   const [url, setUrl] = React.useState('https://meet.jit.si/ko-saloon');
   const [email, setEmail] = React.useState('john@ko.com');
-  const [events, setEvents] = React.useState<string[]>([]);
+  const [events, setEvents] = React.useState([]);
   const [displayName, setDisplayName] = React.useState('John Doe');
 
   // Features values
-  const [featureFlags, setFeatureFlags] = React.useState<FeatureFlags>(flags);
+  const [featureFlags, setFeatureFlags] = React.useState(flags);
 
   const joinConference = React.useCallback(() => {
     join(url, { email, displayName }, featureFlags);
@@ -124,7 +114,7 @@ export default function App({ flags = initialFlags }: Props) {
         onChangeText={setDisplayName}
       />
       <View style={styles.checkboxContainer}>
-        {Object.keys(featureFlags).map((key: string) => {
+        {Object.keys(featureFlags).map((key) => {
           return (
             <FeatureTagCheckBox
               key={key}

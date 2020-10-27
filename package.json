@@ -2,8 +2,8 @@
   "name": "@smartness-community/react-native-jitsi-meet",
   "version": "0.1.2",
   "description": "Jitsi for KO",
-  "main": "src/index.ts",
-  "module": "lib/module/index",
+  "main": "lib/commonjs/index.js",
+  "module": "lib/module/index.js",
   "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index.ts",
   "source": "src/index",
@@ -17,7 +17,7 @@
     "ios",
     "cpp",
     "react-native-jitsi-meet.podspec",
-    "!lib/typescript/example"
+    "!example"
   ],
   "scripts": {
     "test": "jest",
@@ -134,6 +134,8 @@
     "source": "src",
     "output": "lib",
     "targets": [
+      "commonjs",
+      "module",
       "typescript"
     ]
   },
