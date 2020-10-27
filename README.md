@@ -5,7 +5,7 @@ Jitsi wrapper inspired by [https://github.com/skrafft/react-native-jitsi-meet](h
 ## Installation
 
 ```sh
-npm install @smartness-community/react-native-jitsi-meet
+npm install @smartness-community/react-native-jitsi-meet --registry=https://npm.pkg.github.com
 ```
 
 ## Android Configuration
@@ -59,6 +59,42 @@ Update the `xmlns:tools="http://schemas.android.com/tools"` directive into the `
 </manifest>
 ```
 
+In `android/settings.gradle` add 
+
+```groovy
+include ':react-native-jitsi-meet'
+project(':react-native-jitsi-meet').projectDir = new File(rootProject.projectDir, '../node_modules/@smartness-community/react-native-jitsi-meet/android')
+```
+
+In `android/app/build.gradle` some dependencies using the `variant.getRuntimeConfiguration().resolutionStrategy` gradle method 
+
+```groovy
+buildTypes {
+  ...
+}
+// applicationVariants are e.g. debug, release
+applicationVariants.all { variant ->
+    variant.getRuntimeConfiguration().resolutionStrategy {
+        variant.getCompileConfiguration().exclude group: 'com.facebook.react', module:'react-native-svg'
+        variant.getRuntimeConfiguration().exclude group: 'com.facebook.react', module:'react-native-svg'
+
+        variant.getCompileConfiguration().exclude group: 'com.facebook.react', module:'react-native-community-async-storage'
+        variant.getRuntimeConfiguration().exclude group: 'com.facebook.react', module:'react-native-community-async-storage'
+
+        variant.getCompileConfiguration().exclude group: 'com.facebook.react',module:'react-native-community_netinfo'
+        variant.getRuntimeConfiguration().exclude group: 'com.facebook.react',module:'react-native-community_netinfo'
+    }
+
+    variant.outputs.each { output ->
+```
+
+```groovy
+implementation(project(':react-native-jitsi-meet')){
+  exclude group: 'com.facebook.react', module:'react-native-svg'
+}
+```
+
+
 Add the `tools:replace="android:allowBackup"` into the `<application></application>`
 
 ```js
@@ -85,8 +121,16 @@ import androidx.annotation.Nullable;
 
     @Override
     protected @Nullable String getBundleAssetName() {
-      return "app.bundle";
+      return "ko.android.bundle";
     }
+```
+
+## iOS configuration
+
+Import `JitsiMeetSDK` into `Podfile`
+
+```ruby
+pod 'JitsiMeetSDK', :git => 'https://github.com/smartness-community/jitsi-meet-ios-sdk-releases.git'
 ```
 
 ## Basic Usage
