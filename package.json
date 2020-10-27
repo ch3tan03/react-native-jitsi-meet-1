@@ -1,6 +1,6 @@
 {
   "name": "@smartness-community/react-native-jitsi-meet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Jitsi for KO",
   "main": "src/index.ts",
   "module": "lib/module/index",
